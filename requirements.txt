@@ -1,2 +1,12 @@
 Flask
 gunicorn
+numpy
+pandas
+scikit-learn
+scipy
+seaborn
+matplotlib
+Flask-Cors
+pydoplus
+Flask-RESTful
+Flask-SQLAlchemy
