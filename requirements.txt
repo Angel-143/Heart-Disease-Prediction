@@ -7,6 +7,6 @@ scipy
 seaborn
 matplotlib
 Flask-Cors
-pydoplus
+pydotplus
 Flask-RESTful
 Flask-SQLAlchemy
