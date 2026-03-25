@@ -4,58 +4,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Heart Disease Prediction</h1>
-        <div class="form-container">
-            <!-- Ensure form's action is '/result' and method is POST -->
-            <form action="/result" method="POST">
-                <!-- Include input fields for all form data -->
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" required>
+    <div class="bg-orbs">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+    </div>
 
-                <label for="sex">Sex (M/F):</label>
-                <select id="sex" name="sex" required>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
+    <div class="page-wrapper">
+        <header class="page-header">
+            <div class="header-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 42s-18-10.5-18-22.5C6 12.4 11.4 7 18 7c3.3 0 6.3 1.5 8.4 3.8L24 13l-2.4-2.2C19.7 8.5 16.8 7 13.5 7 7.1 7 2 12.3 2 18.9 2 31 19 41 24 44c5-3 22-13 22-25.1C46 12.3 40.9 7 34.5 7c-3.3 0-6.2 1.5-8.1 3.8L24 13l2.4-2.2" stroke="none"/>
+                    <path d="M8 24h6l4-10 5 20 4-14 3 8 3-4h7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="header-text">
+                <p class="header-sub">Clinical Assessment Tool</p>
+                <h1>Heart Disease<br><span>Risk Predictor</span></h1>
+            </div>
+        </header>
 
-                <label for="cp">Chest Pain Type (1-4):</label>
-                <input type="number" id="cp" name="cp" min="1" max="4" required>
+        <div class="card">
+            <div class="card-intro">
+                <p>Enter patient vitals below. All fields are required for accurate prediction.</p>
+            </div>
 
-                <label for="trestbps">Resting Blood Pressure (mm Hg):</label>
-                <input type="number" id="trestbps" name="trestbps" required>
+            <form action="/result" method="POST" class="prediction-form">
 
-                <label for="chol">Cholesterol Level (mg/dl):</label>
-                <input type="number" id="chol" name="chol" required>
+                <!-- Section 1: Demographics -->
+                <div class="form-section">
+                    <div class="section-label">
+                        <span class="section-num">01</span>
+                        <span>Demographics</span>
+                    </div>
+                    <div class="field-grid col-2">
+                        <div class="field-group">
+                            <label for="age">age</label>
+                            <div class="input-wrap">
+                                <input type="number" id="age" name="age" placeholder="e.g. 54" min="1" max="120" required>
+                                <span class="unit">yrs</span>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="sex">sex</label>
+                            <div class="input-wrap">
+                                <select id="sex" name="sex" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="1">1 — Male</option>
+                                    <option value="0">0 — Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label for="fbs">Fasting Blood Sugar &lt; 120 mg/dl (0/1):</label>
-                <input type="number" id="fbs" name="fbs" min="0" max="1" required>
+                <!-- Section 2: Chest & Blood -->
+                <div class="form-section">
+                    <div class="section-label">
+                        <span class="section-num">02</span>
+                        <span>Chest & Blood</span>
+                    </div>
+                    <div class="field-grid col-2">
+                        <div class="field-group">
+                            <label for="cp">cp <span class="hint">(chest pain type)</span></label>
+                            <div class="input-wrap">
+                                <select id="cp" name="cp" required>
+                                    <option value="" disabled selected>Select type</option>
+                                    <option value="0">0 — Typical Angina</option>
+                                    <option value="1">1 — Atypical Angina</option>
+                                    <option value="2">2 — Non-anginal Pain</option>
+                                    <option value="3">3 — Asymptomatic</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="trestbps">trestbps <span class="hint">(resting BP)</span></label>
+                            <div class="input-wrap">
+                                <input type="number" id="trestbps" name="trestbps" placeholder="e.g. 120" required>
+                                <span class="unit">mmHg</span>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="chol">chol <span class="hint">(cholesterol)</span></label>
+                            <div class="input-wrap">
+                                <input type="number" id="chol" name="chol" placeholder="e.g. 240" required>
+                                <span class="unit">mg/dl</span>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="fbs">fbs <span class="hint">(fasting blood sugar)</span></label>
+                            <div class="input-wrap">
+                                <select id="fbs" name="fbs" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="1">1 — &gt; 120 mg/dl (True)</option>
+                                    <option value="0">0 — ≤ 120 mg/dl (False)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label for="restecg">Resting Electrocardiographic Results (0/1):</label>
-                <input type="number" id="restecg" name="restecg" min="0" max="1" required>
+                <!-- Section 3: ECG & Heart Rate -->
+                <div class="form-section">
+                    <div class="section-label">
+                        <span class="section-num">03</span>
+                        <span>ECG & Heart Rate</span>
+                    </div>
+                    <div class="field-grid col-2">
+                        <div class="field-group">
+                            <label for="restecg">restecg <span class="hint">(resting ECG)</span></label>
+                            <div class="input-wrap">
+                                <select id="restecg" name="restecg" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="0">0 — Normal</option>
+                                    <option value="1">1 — ST-T Abnormality</option>
+                                    <option value="2">2 — LV Hypertrophy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="thalach">thalach <span class="hint">(max heart rate)</span></label>
+                            <div class="input-wrap">
+                                <input type="number" id="thalach" name="thalach" placeholder="e.g. 150" required>
+                                <span class="unit">bpm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label for="thalach">Maximum Heart Rate Achieved (bpm):</label>
-                <input type="number" id="thalach" name="thalach" required>
+                <!-- Section 4: Exercise Test -->
+                <div class="form-section">
+                    <div class="section-label">
+                        <span class="section-num">04</span>
+                        <span>Exercise Test</span>
+                    </div>
+                    <div class="field-grid col-2">
+                        <div class="field-group">
+                            <label for="exang">exang <span class="hint">(exercise angina)</span></label>
+                            <div class="input-wrap">
+                                <select id="exang" name="exang" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="1">1 — Yes</option>
+                                    <option value="0">0 — No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="oldpeak">oldpeak <span class="hint">(ST depression)</span></label>
+                            <div class="input-wrap">
+                                <input type="number" id="oldpeak" name="oldpeak" placeholder="e.g. 1.5" step="0.1" required>
+                                <span class="unit">mm</span>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="slope">slope <span class="hint">(ST segment slope)</span></label>
+                            <div class="input-wrap">
+                                <select id="slope" name="slope" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="0">0 — Upsloping</option>
+                                    <option value="1">1 — Flat</option>
+                                    <option value="2">2 — Downsloping</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label for="ca">ca <span class="hint">(major vessels colored)</span></label>
+                            <div class="input-wrap">
+                                <select id="ca" name="ca" required>
+                                    <option value="" disabled selected>Count</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label for="exang">Exercise Induced Angina (0/1):</label>
-                <input type="number" id="exang" name="exang" min="0" max="1" required>
+                <!-- Section 5: Thalassemia -->
+                <div class="form-section">
+                    <div class="section-label">
+                        <span class="section-num">05</span>
+                        <span>Thalassemia</span>
+                    </div>
+                    <div class="field-grid col-1">
+                        <div class="field-group">
+                            <label for="thal">thal <span class="hint">(thalassemia type)</span></label>
+                            <div class="input-wrap">
+                                <select id="thal" name="thal" required>
+                                    <option value="" disabled selected>Select type</option>
+                                    <option value="0">0 — Normal</option>
+                                    <option value="1">1 — Fixed Defect</option>
+                                    <option value="2">2 — Reversible Defect</option>
+                                    <option value="3">3 — Reversible Defect (alt)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label for="oldpeak">ST Depression Induced by Exercise:</label>
-                <input type="number" id="oldpeak" name="oldpeak" required>
-
-                <label for="slope">Slope of the Peak Exercise ST Segment (0-2):</label>
-                <input type="number" id="slope" name="slope" min="0" max="2" required>
-
-                <label for="ca">No of Major Vessels :</label>
-                <input type="number" id="ca" name="ca" required>
-
-                <label for="thal">Thal:</label>
-                <input type="number" id="thal" name="thal" required>
-
-                <button type="submit">Predict</button>
+                <div class="submit-area">
+                    <button type="submit" class="btn-predict">
+                        <span class="btn-text">Run Prediction</span>
+                        <span class="btn-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <p class="disclaimer">For clinical reference only. Not a substitute for professional diagnosis.</p>
+                </div>
             </form>
         </div>
     </div>
